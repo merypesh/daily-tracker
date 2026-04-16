@@ -84,6 +84,12 @@ body {
   text-transform: uppercase;
   line-height: 1.5;
   text-align: right;
+  box-shadow: 0 4px 12px rgba(76,43,8,0.35), 0 1px 3px rgba(76,43,8,0.2);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.page-badge:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(76,43,8,0.25);
 }
 .page-badge .pb-day { display: block; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
 
@@ -203,6 +209,19 @@ body {
   border-top: 1px solid var(--sep); transition: background 0.1s;
 }
 .check-row:active { background: rgba(76,43,8,0.03); }
+.check-row.has-options {
+  margin: 0.2rem 0.75rem;
+  border: 1px solid var(--sep);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.9rem;
+  background: var(--white);
+  box-shadow: 0 1px 4px rgba(76,43,8,0.07);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.check-row.has-options:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(76,43,8,0.04);
+}
 .check-circle {
   width: 22px; height: 22px; border-radius: 50%;
   border: 2px solid var(--text3); flex-shrink: 0;
@@ -420,7 +439,128 @@ textarea::placeholder { color: var(--text3); }
 .bar-seg.e { background: var(--espresso); }
 .bar-pct { font-size: 0.65rem; font-weight: 600; color: var(--text3); width: 32px; text-align: right; flex-shrink: 0; }
 
-/* ── Heatmap ── */
+/* ── Daily Debrief ── */
+.debrief-card {
+  margin: 0 1.3rem 0.8rem;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem 1.2rem;
+  box-shadow: var(--shadow);
+}
+.debrief-title {
+  font-family: 'Libre Baskerville', serif; font-style: italic;
+  font-size: 1.15rem; font-weight: 400; color: var(--text);
+  margin-bottom: 0.1rem;
+}
+.debrief-sub {
+  font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text3); margin-bottom: 1rem;
+}
+.debrief-section { margin-bottom: 0.9rem; }
+.debrief-section:last-child { margin-bottom: 0; }
+.debrief-section-label {
+  font-size: 0.6rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text2);
+  display: flex; align-items: center; gap: 0.35rem;
+  margin-bottom: 0.45rem; padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--sep);
+}
+.debrief-section-label .pip {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.debrief-chips {
+  display: flex; flex-wrap: wrap; gap: 0.35rem;
+}
+.debrief-chip {
+  font-size: 0.68rem; font-weight: 600;
+  background: var(--cream); color: var(--text);
+  padding: 0.25rem 0.65rem; border-radius: 20px;
+  border: 1px solid var(--sep);
+}
+.debrief-chip.checked { background: var(--espresso); color: var(--cream); border-color: var(--espresso); }
+.debrief-chip.selected { background: var(--sky); color: var(--espresso); border-color: var(--sky-mid); }
+.debrief-empty {
+  font-size: 0.7rem; color: var(--text3); font-style: italic;
+}
+
+/* ── Interchange Bubbles ── */
+.bubble-wrap {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+  padding: 0.6rem 0.5rem 0.7rem;
+  border-top: 1px solid var(--sep);
+  animation: fadeUp 0.2s ease;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+.bubble {
+  display: flex; flex-direction: column;
+  background: var(--cream); border-radius: 20px;
+  padding: 0.35rem 0.75rem; cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.15s; text-align: center;
+}
+.bubble:active { transform: scale(0.95); }
+.bubble.selected {
+  background: var(--espresso-light);
+  border-color: var(--espresso-light);
+}
+.bubble.selected .b-label { color: #fff; }
+.bubble.selected .b-portion { color: rgba(255,255,255,0.7); }
+.b-label { font-size: 0.72rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+.b-portion { font-size: 0.58rem; font-weight: 500; color: var(--text3); margin-top: 0.1rem; }
+
+/* ── Date Picker Popup ── */
+.datepicker-overlay {
+  display: none; position: fixed; inset: 0; z-index: 150;
+}
+.datepicker-overlay.open { display: block; }
+.datepicker-popup {
+  display: none; position: fixed; top: 7rem; right: 1.3rem;
+  z-index: 160; background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow-lg); padding: 1rem 1rem 1.1rem;
+  width: 260px;
+  animation: dpFadeIn 0.18s ease;
+}
+@keyframes dpFadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+.datepicker-popup.open { display: block; }
+.datepicker-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.datepicker-header button {
+  background: var(--cream); border: none; border-radius: 50%;
+  width: 28px; height: 28px; font-size: 0.9rem; color: var(--text2);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; font-family: 'Inter', sans-serif;
+}
+.datepicker-header button:hover { background: var(--espresso); color: var(--cream); }
+.datepicker-title {
+  font-family: 'Libre Baskerville', serif; font-style: italic;
+  font-size: 0.95rem; color: var(--text);
+}
+.datepicker-weekdays {
+  display: grid; grid-template-columns: repeat(7,1fr);
+  margin-bottom: 0.3rem;
+}
+.datepicker-weekdays span {
+  text-align: center; font-size: 0.56rem; font-weight: 700;
+  color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 0.15rem 0;
+}
+.datepicker-grid {
+  display: grid; grid-template-columns: repeat(7,1fr); gap: 2px;
+}
+.dp-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-size: 0.7rem; font-weight: 500;
+  color: var(--text2); cursor: pointer; transition: all 0.12s;
+  border: none; background: none; font-family: 'Inter', sans-serif;
+}
+.dp-day:hover { background: var(--cream); color: var(--text); }
+.dp-day.empty { cursor: default; }
+.dp-day.today { background: var(--cream); font-weight: 800; color: var(--text); }
+.dp-day.selected { background: var(--espresso); color: var(--cream); font-weight: 700; }
+.dp-day.has-data { font-weight: 700; color: var(--text); }
+.dp-day.future { color: var(--text3); opacity: 0.4; cursor: default; }
 .heatmap-block {
   margin: 0 1.3rem 0.8rem;
   background: var(--white);
@@ -536,12 +676,26 @@ textarea::placeholder { color: var(--text3); }
   <div class="page-header">
     <div>
       <div class="page-title" id="todayTitle">Hoy</div>
-      <div style="font-size:0.65rem;font-weight:500;color:var(--text2);margin-top:0.2rem;" id="todaySub">—</div>
+      <div style="font-size:0.65rem;font-weight:500;color:var(--text2);margin-top:0.2rem;" id="todaySub"></div>
     </div>
-    <div class="page-badge">
+    <div class="page-badge" onclick="toggleDatePicker()" style="cursor:pointer;" title="Seleccionar fecha">
       <span class="pb-day" id="dayBig">—</span>
-      <span id="monthSmall">—</span>
+      <span id="monthSmall">—  ▾</span>
     </div>
+  </div>
+
+  <!-- Date Picker Popup -->
+  <div class="datepicker-overlay" id="datepickerOverlay" onclick="closeDatePicker()"></div>
+  <div class="datepicker-popup" id="datepickerPopup">
+    <div class="datepicker-header">
+      <button onclick="changeDPMonth(-1)">‹</button>
+      <span class="datepicker-title" id="dpTitle">—</span>
+      <button onclick="changeDPMonth(1)">›</button>
+    </div>
+    <div class="datepicker-weekdays">
+      <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+    </div>
+    <div class="datepicker-grid" id="dpGrid"></div>
   </div>
 
   <!-- Identity Statement -->
@@ -659,6 +813,13 @@ textarea::placeholder { color: var(--text3); }
     </div>
     <div class="xp-quote" id="xpQuote">"Every action you take is a vote for the type of person you wish to become."</div>
   </div>
+
+  <!-- Daily Debrief -->
+  <div class="debrief-card" id="debriefCard">
+    <div class="debrief-title">Daily Debrief</div>
+    <div class="debrief-sub" id="debriefDate">—</div>
+    <div id="debriefBody"></div>
+  </div>
 </div>
 
 <!-- ── PROGRESS VIEW ── -->
@@ -751,38 +912,127 @@ const CATEGORIES = {
   ]},
   diet: { groups: [
     { label: 'Desayuno — 3P · 1C · 1V · 1F · 1G', items: [
-      { id:'d1', label:'Proteína', portion:'3 porciones · ej: 1 huevo + ½ tz claras', tag:'3 porciones' },
-      { id:'d2', label:'Carbohidrato', portion:'1 porción · plátano 60g · avena ¼ tz · pan 1 rodaja', tag:'1 porción' },
-      { id:'d3', label:'Vegetal', portion:'50–100g cocido', tag:'½–1 taza' },
-      { id:'d4', label:'Fruta', portion:'berries ½ tz · papaya 120g · banano 40–45g', tag:'1 porción' },
-      { id:'d5', label:'Grasa', portion:'aguacate 30g', tag:'30g' },
+      { id:'d1', label:'Proteína', portion:'3 porciones · ej: 1 huevo + ½ tz claras', tag:'3 porciones',
+        options:[
+          {id:'d1a', label:'Huevo entero', portion:'1 unidad'},
+          {id:'d1b', label:'Claras líquidas', portion:'½ taza = 2 porciones'},
+          {id:'d1c', label:'Yogurt griego natural', portion:'1 taza'},
+          {id:'d1d', label:'Cottage light Parma', portion:'¼ taza'},
+          {id:'d1e', label:'Proteína en polvo', portion:'½ scoop = 1.5 porciones'},
+        ]},
+      { id:'d2', label:'Carbohidrato', portion:'1 porción · plátano 60g · avena ¼ tz · pan 1 rodaja', tag:'1 porción',
+        options:[
+          {id:'d2a', label:'Plátano cocido', portion:'60g cocido'},
+          {id:'d2b', label:'Avena en hojuela', portion:'¼ taza cruda'},
+          {id:'d2c', label:'Pan masa madre', portion:'1 rodaja tostada'},
+          {id:'d2d', label:'Sanissimo', portion:'1 paquete'},
+          {id:'d2e', label:'Banano', portion:'45g'},
+        ]},
+      { id:'d3', label:'Vegetal', portion:'50–100g cocido', tag:'½–1 taza',
+        options:[
+          {id:'d3a', label:'Espinaca', portion:'1 taza'},
+          {id:'d3b', label:'Zucchini', portion:'½ taza cocido'},
+          {id:'d3c', label:'Chile pimiento', portion:'½ taza'},
+          {id:'d3d', label:'Tomate cherry', portion:'½ taza'},
+        ]},
+      { id:'d4', label:'Fruta', portion:'berries ½ tz · papaya 120g · banano 40–45g', tag:'1 porción',
+        options:[
+          {id:'d4a', label:'Berries / fresas', portion:'½ taza'},
+          {id:'d4b', label:'Papaya', portion:'120g troceada'},
+          {id:'d4c', label:'Banano', portion:'40–45g'},
+          {id:'d4d', label:'Mango', portion:'80g'},
+          {id:'d4e', label:'Manzana / pera / naranja', portion:'1 unidad'},
+        ]},
+      { id:'d5', label:'Grasa', portion:'aguacate 30g', tag:'30g',
+        options:[
+          {id:'d5a', label:'Aguacate', portion:'30g = ¼ unidad pequeña'},
+          {id:'d5b', label:'Almendras', portion:'6 unidades'},
+          {id:'d5c', label:'Mantequilla de maní', portion:'1 cdita'},
+        ]},
+      { id:'d6', label:'Café', portion:'1 taza café negro + 2 oz leche descremada o almendra', tag:'no snacking' },
     ]},
     { label: 'Almuerzo — Meal Prep', items: [
-      { id:'d7', label:'Proteína', portion:'4 oz = 113g cocido', tag:'4 oz' },
-      { id:'d8', label:'Carbohidrato', portion:'1 porción según intercambio', tag:'1 porción' },
-      { id:'d9', label:'Vegetales', portion:'cocidos 150g · ensalada 2 tazas', tag:'1.5 tazas' },
-      { id:'d10', label:'Grasa', portion:'aguacate 30g · aceite 2 cditas · almendras 8–10', tag:'1 porción' },
+      { id:'d7', label:'Proteína', portion:'4 oz = 113g cocido', tag:'4 oz',
+        options:[
+          {id:'d7a', label:'Pechuga de pollo', portion:'4 oz = 113g cocido'},
+          {id:'d7b', label:'Carne molida magra / pavo', portion:'4 oz = 113g cocido'},
+          {id:'d7c', label:'Pescado blanco', portion:'4 oz = 113g cocido'},
+          {id:'d7d', label:'Salmón', portion:'4 oz = 113g · máx 2× semana'},
+          {id:'d7e', label:'Camarones', portion:'4 oz = 113g cocido'},
+        ]},
+      { id:'d8', label:'Carbohidrato', portion:'1 porción según intercambio', tag:'1 porción',
+        options:[
+          {id:'d8a', label:'Arroz', portion:'60g cocido'},
+          {id:'d8b', label:'Camote / papa', portion:'100g cocido'},
+          {id:'d8c', label:'Quinoa', portion:'50g cocido'},
+          {id:'d8d', label:'Garbanzos', portion:'50g cocido'},
+          {id:'d8e', label:'Tortillas de nopal', portion:'3 tortillas · @nopalitos_gt'},
+          {id:'d8f', label:'Tortilla de yuca', portion:'1 tortilla · Memima / Forela'},
+          {id:'d8g', label:'Yuca', portion:'50g cocida'},
+          {id:'d8h', label:'Plátano cocido', portion:'60g cocido'},
+        ]},
+      { id:'d9', label:'Vegetales', portion:'cocidos 150g · ensalada 2 tazas', tag:'1.5 tazas',
+        options:[
+          {id:'d9a', label:'Mix vegetales cocidos', portion:'150g pesados'},
+          {id:'d9b', label:'Ensalada verde', portion:'2 tazas · aderezo: limón'},
+          {id:'d9c', label:'Brócoli / coliflor', portion:'1.5 tazas cocido'},
+          {id:'d9d', label:'Ejotes / zucchini', portion:'1.5 tazas cocido'},
+        ]},
+      { id:'d10', label:'Grasa', portion:'aguacate 30g · aceite 2 cditas · almendras 8–10', tag:'1 porción',
+        options:[
+          {id:'d10a', label:'Aguacate', portion:'30g'},
+          {id:'d10b', label:'Aceite de oliva extra virgen', portion:'2 cditas'},
+          {id:'d10c', label:'Almendras', portion:'8–10 unidades'},
+        ]},
     ]},
     { label: 'Refacción PM', items: [
       { id:'d11', label:'Opción A: 2 rice cakes + cottage Parma + miel + zanahoria', portion:'2 rice cakes + 1 cda cottage c/u + 1 cdta miel + ½ tz zanahoria', tag:'opción A' },
       { id:'d12', label:'Opción B: Oikos Natural Sin Azúcar + pepino con canela', portion:'120g Oikos SKYR Griego + 1 taza pepino con canela', tag:'opción B' },
     ]},
     { label: 'Cena — Meal Prep · sin crudos', items: [
-      { id:'d13', label:'Proteína', portion:'4 oz = 113g cocido', tag:'4 oz' },
-      { id:'d14', label:'Vegetales cocidos', portion:'100g pesados · sin crudos · sopas ok', tag:'1 taza' },
-      { id:'d15', label:'Grasa', portion:'aguacate 30g · aceite 2 cditas', tag:'1 porción' },
+      { id:'d13', label:'Proteína', portion:'4 oz = 113g cocido', tag:'4 oz',
+        options:[
+          {id:'d13a', label:'Pechuga de pollo', portion:'4 oz = 113g cocido'},
+          {id:'d13b', label:'Carne molida magra / pavo', portion:'4 oz = 113g cocido'},
+          {id:'d13c', label:'Atún Tonnino', portion:'1 frasco vidrio · Walmart'},
+        ]},
+      { id:'d14', label:'Vegetales cocidos', portion:'100g pesados · sin crudos · sopas ok', tag:'1 taza',
+        options:[
+          {id:'d14a', label:'Sopa de vegetales', portion:'1 taza · sin crudos'},
+          {id:'d14b', label:'Brócoli / ejotes cocidos', portion:'100g pesados'},
+          {id:'d14c', label:'Zucchini / calabacín cocido', portion:'100g pesados'},
+          {id:'d14d', label:'Espinaca cocida', portion:'100g pesados'},
+        ]},
+      { id:'d15', label:'Grasa', portion:'aguacate 30g · aceite 2 cditas', tag:'1 porción',
+        options:[
+          {id:'d15a', label:'Aguacate', portion:'30g'},
+          {id:'d15b', label:'Aceite de oliva extra virgen', portion:'2 cditas'},
+        ]},
+      { id:'d19', label:'Después de cena', portion:'si hay ansiedad nocturna', tag:'noche',
+        options:[
+          {id:'d19a', label:'Té de manzanilla', portion:'1 taza'},
+          {id:'d19b', label:'Gelatina light Imperial', portion:'sin azúcar'},
+          {id:'d19c', label:'No fue necesario', portion:'¡bien! 🌙'},
+        ]},
     ]},
     { label: 'Hidratación & reglas', items: [
       { id:'d16', label:'3 litros de agua', portion:'distribuidos durante el día', tag:'todo el día' },
       { id:'d17', label:'Sin gluten · sin lácteos pesados · sin alcohol', portion:'siempre', tag:'regla' },
-      { id:'d18', label:'Té manzanilla o gelatina light Imperial', portion:'si hay ansiedad nocturna', tag:'noche' },
     ]},
   ]},
   exercise: { groups: [
     { label: 'Entrenamiento', items: [
       { id:'e1', label:'CrossFit / Entrenamiento de fuerza', portion:'mínimo 3×/semana · prioridad', tag:'5–6× sem' },
       { id:'e2', label:'Natación (Lun · Mié · Vie)', portion:'550–750ml agua + electrolitos/hora', tag:'AM' },
-      { id:'e3', label:'Pre-workout snack natación (30–40 min antes)', portion:'waffle WAAU + miel · o 60g plátano · o 2 dátiles', tag:'si aplica' },
+      { id:'e3', label:'Pre-workout snack natación (30–40 min antes)', portion:'waffle WAAU + miel · o 60g plátano · o 2 dátiles', tag:'si aplica',
+        options:[
+          {id:'e3a', label:'Waffle WAAU + miel', portion:'1 waffle simple + 1 cdita miel'},
+          {id:'e3b', label:'Plátano cocido + miel', portion:'60g plátano + 1 cdita miel'},
+          {id:'e3c', label:'Pan tostado + jalea + miel', portion:'1 rodaja + 1 cda miel'},
+          {id:'e3d', label:'2 dátiles', portion:'2 unidades'},
+          {id:'e3e', label:'Gatorade / bebida deportiva', portion:'con carbohidratos · evaluar tolerancia'},
+          {id:'e3f', label:'No aplica hoy', portion:'sin natación'},
+        ]},
     ]},
     { label: 'Rutina', items: [
       { id:'e4', label:'Calentamiento', portion:'10 minutos', tag:'inicio' },
@@ -821,12 +1071,18 @@ function getDailyQuote(){
   return AH_QUOTES[idx];
 }
 
+function identityKey(){ return 'identity_' + (selectedDate||''); }
+
 function initIdentity(){
   const el = document.getElementById('identityText');
-  const saved = localStorage.getItem('identity_statement') || '';
+  // Load saved identity for selected date
+  const saved = localStorage.getItem(identityKey()) || '';
   el.textContent = saved;
-  el.addEventListener('input', () => {
-    localStorage.setItem('identity_statement', el.textContent);
+  // Remove old listener by replacing element clone trick
+  const newEl = el.cloneNode(true);
+  el.parentNode.replaceChild(newEl, el);
+  newEl.addEventListener('input', () => {
+    localStorage.setItem(identityKey(), newEl.textContent);
   });
 }
 function pct(cat,dayData){ const items=getAllItems(cat); const done=items.filter(i=>dayData[cat]&&dayData[cat][i.id]).length; return items.length?Math.round(done/items.length*100):0; }
@@ -915,9 +1171,9 @@ function renderTodayHeader(){
   const today=new Date(); today.setHours(0,0,0,0);
   const isToday=dateKey(today)===selectedDate;
   document.getElementById('todayTitle').textContent=isToday?'Hoy':DAYS_ES[date.getDay()];
-  document.getElementById('todaySub').textContent=`${date.getDate()} de ${MONTHS_ES[date.getMonth()]} ${date.getFullYear()} · Plan Francesca Boscolo`;
+  document.getElementById('todaySub').textContent='';
   document.getElementById('dayBig').textContent=date.getDate();
-  document.getElementById('monthSmall').textContent=`${DAYS_ES[date.getDay()]} · ${MONTHS_ES[date.getMonth()].slice(0,3)}`;
+  document.getElementById('monthSmall').textContent=`${DAYS_ES[date.getDay()]} · ${MONTHS_ES[date.getMonth()].slice(0,3)}  ▾`;
 }
 
 function renderSections(){
@@ -930,22 +1186,55 @@ function renderSections(){
       const hdr=document.createElement('div'); hdr.className='group-header'; hdr.textContent=group.label; container.appendChild(hdr);
       group.items.forEach(item=>{
         const checked=d[cat][item.id];
+        const hasOptions = (cat==='diet' || cat==='exercise') && item.options && item.options.length>0;
         const row=document.createElement('div');
-        row.className='check-row'+(checked?' done':'');
+        row.className='check-row'+(checked?' done':'')+(hasOptions?' has-options':'');
         row.innerHTML=`
           <div class="check-circle">${checked?'✓':''}</div>
           <div class="check-text">
-            <div class="check-title">${item.label}</div>
+            <div class="check-title">${item.label}${hasOptions?' <span style="font-size:0.58rem;color:var(--text3);">▾</span>':''}</div>
             ${item.portion?`<div class="check-portion">${item.portion}</div>`:''}
           </div>
           ${item.tag?`<div class="check-tag">${item.tag}</div>`:''}`;
-        row.onclick=()=>toggleItem(cat,item.id);
+
+        // checkbox circle toggles completion
+        row.querySelector('.check-circle').onclick=(e)=>{
+          e.stopPropagation();
+          toggleItem(cat,item.id);
+        };
+
+        if(hasOptions){
+          // clicking row body toggles bubbles
+          row.onclick=(e)=>{
+            if(e.target.closest('.check-circle')) return;
+            const bubbleId='bubbles-'+item.id;
+            const existing=document.getElementById(bubbleId);
+            if(existing){ existing.remove(); return; }
+            const wrap=document.createElement('div');
+            wrap.className='bubble-wrap'; wrap.id=bubbleId;
+            item.options.forEach(opt=>{
+              const selKey=`sel_${selectedDate}_${opt.id}`;
+              const isSel=localStorage.getItem(selKey)==='1';
+              const b=document.createElement('div');
+              b.className='bubble'+(isSel?' selected':'');
+              b.innerHTML=`<span class="b-label">${opt.label}</span><span class="b-portion">${opt.portion}</span>`;
+              b.onclick=(e)=>{
+                e.stopPropagation();
+                const now=b.classList.toggle('selected');
+                localStorage.setItem(selKey,now?'1':'0');
+              };
+              wrap.appendChild(b);
+            });
+            row.after(wrap);
+          };
+        } else {
+          row.onclick=()=>toggleItem(cat,item.id);
+        }
         container.appendChild(row);
       });
     });
     document.getElementById(cat+'Notes').value=d.notes[cat]||'';
     renderPhotos(cat); updateScores(cat);
-    // Keep collapsed state — only set display:none on first load if not already set
     const body=document.getElementById(cat+'Body');
     if(body.dataset.initialized!=='1'){
       body.style.display='none';
@@ -979,7 +1268,7 @@ function updateScores(cat){
   if(fill) fill.style.height = p === 100 ? '108%' : p+'%';
 }
 
-function selectDate(key){ selectedDate=key; renderWeekTabs(); renderSections(); initWater(); }
+function selectDate(key){ selectedDate=key; renderWeekTabs(); renderSections(); initWater(); initIdentity(); renderDebrief(); }
 function changeWeek(dir){
   weekStart.setDate(weekStart.getDate()+dir*7); renderWeekTabs();
   const end=new Date(weekStart); end.setDate(end.getDate()+6);
@@ -988,7 +1277,7 @@ function changeWeek(dir){
 }
 function toggleItem(cat,id){
   ensureDay(selectedDate); state[selectedDate][cat][id]=!state[selectedDate][cat][id];
-  saveState(); renderSections(); renderWeekTabs(); updateXP();
+  saveState(); renderSections(); renderWeekTabs(); updateXP(); renderDebrief();
   if(document.getElementById('viewProgress').classList.contains('active')) renderProgress();
 }
 function saveNotes(cat){ ensureDay(selectedDate); state[selectedDate].notes[cat]=document.getElementById(cat+'Notes').value; saveState(); }
@@ -1178,7 +1467,203 @@ function exportDay(){
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`tracker-${selectedDate}.html`; a.click();
 }
 
-// ── WATER TRACKER ────────────────────────────────────────────────────────────
+// ── DATE PICKER ───────────────────────────────────────────────────────────────
+let dpYear  = new Date().getFullYear();
+let dpMonth = new Date().getMonth();
+
+function toggleDatePicker(){
+  const popup   = document.getElementById('datepickerPopup');
+  const overlay = document.getElementById('datepickerOverlay');
+  const isOpen  = popup.classList.contains('open');
+  if(isOpen){ closeDatePicker(); }
+  else {
+    // sync dp to selected date's month
+    if(selectedDate){
+      const d = new Date(selectedDate+'T12:00:00');
+      dpYear  = d.getFullYear();
+      dpMonth = d.getMonth();
+    }
+    popup.classList.add('open');
+    overlay.classList.add('open');
+    renderDP();
+  }
+}
+
+function closeDatePicker(){
+  document.getElementById('datepickerPopup').classList.remove('open');
+  document.getElementById('datepickerOverlay').classList.remove('open');
+}
+
+function changeDPMonth(dir){
+  dpMonth += dir;
+  if(dpMonth > 11){ dpMonth = 0; dpYear++; }
+  if(dpMonth < 0) { dpMonth = 11; dpYear--; }
+  renderDP();
+}
+
+function renderDP(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const firstDay = new Date(dpYear, dpMonth, 1);
+  const daysInMonth = new Date(dpYear, dpMonth+1, 0).getDate();
+  let offset = firstDay.getDay() - 1;
+  if(offset < 0) offset = 6;
+
+  document.getElementById('dpTitle').textContent =
+    `${MONTHS_ES[dpMonth].slice(0,3)} ${dpYear}`;
+
+  const grid = document.getElementById('dpGrid');
+  grid.innerHTML = '';
+
+  for(let i=0; i<offset; i++){
+    const el = document.createElement('div');
+    el.className = 'dp-day empty';
+    grid.appendChild(el);
+  }
+
+  for(let d=1; d<=daysInMonth; d++){
+    const date  = new Date(dpYear, dpMonth, d);
+    const key   = dateKey(date);
+    const isFuture  = date > today;
+    const isToday   = dateKey(today) === key;
+    const isSelected= key === selectedDate;
+
+    ensureDay(key);
+    const dd = state[key];
+    const hasData = ['supps','diet','exercise'].some(cat =>
+      getAllItems(cat).some(i => dd[cat][i.id])
+    );
+
+    const el = document.createElement('button');
+    el.className = 'dp-day';
+    el.textContent = d;
+    if(isFuture)   el.classList.add('future');
+    else if(isSelected) el.classList.add('selected');
+    else if(isToday)    el.classList.add('today');
+    else if(hasData)    el.classList.add('has-data');
+
+    if(!isFuture){
+      el.onclick = (e) => {
+        e.stopPropagation();
+        selectedDate = key;
+        weekStart = getMonday(date);
+        renderWeekTabs(); renderSections(); initWater(); initIdentity();
+        closeDatePicker();
+      };
+    }
+    grid.appendChild(el);
+  }
+}
+
+// ── DAILY DEBRIEF ────────────────────────────────────────────────────────────
+function renderDebrief(){
+  if(!selectedDate) return;
+  ensureDay(selectedDate);
+  const d = state[selectedDate];
+  const date = new Date(selectedDate+'T12:00:00');
+  document.getElementById('debriefDate').textContent =
+    `${DAYS_ES[date.getDay()]}, ${date.getDate()} de ${MONTHS_ES[date.getMonth()]} ${date.getFullYear()}`;
+
+  const body = document.getElementById('debriefBody');
+  body.innerHTML = '';
+
+  // ── Suplementos ──
+  const suppSec = buildDebriefSection('Suplementos', 'var(--sky-dark)');
+  const suppChips = suppSec.querySelector('.debrief-chips');
+  let suppAny = false;
+  CATEGORIES.supps.groups.forEach(group => {
+    group.items.forEach(item => {
+      if(d.supps[item.id]){
+        addChip(suppChips, item.label, 'checked'); suppAny = true;
+      }
+    });
+  });
+  if(!suppAny) addEmpty(suppChips);
+  body.appendChild(suppSec);
+
+  // ── Dieta — por momento del día ──
+  const dietSec = buildDebriefSection('Dieta', 'var(--espresso-light)');
+  const dietChips = dietSec.querySelector('.debrief-chips');
+  dietChips.style.flexDirection = 'column';
+  dietChips.style.gap = '0.6rem';
+
+  CATEGORIES.diet.groups.forEach(group => {
+    const groupChips = [];
+    group.items.forEach(item => {
+      if(item.options){
+        item.options.forEach(opt => {
+          if(localStorage.getItem(`sel_${selectedDate}_${opt.id}`) === '1'){
+            groupChips.push({ label: opt.label, portion: opt.portion, type: 'selected' });
+          }
+        });
+      }
+    });
+
+    if(groupChips.length > 0){
+      const groupWrap = document.createElement('div');
+      // Clean group label — remove the long portion desc
+      const shortLabel = group.label.split('—')[0].trim();
+      const gl = document.createElement('div');
+      gl.style.cssText = 'font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:0.3rem;';
+      gl.textContent = shortLabel;
+      groupWrap.appendChild(gl);
+      const row = document.createElement('div');
+      row.className = 'debrief-chips';
+      groupChips.forEach(c => addChip(row, c.label, c.type, c.portion));
+      groupWrap.appendChild(row);
+      dietChips.appendChild(groupWrap);
+    }
+  });
+
+  const dietAny = dietChips.children.length > 0;
+  if(!dietAny) addEmpty(dietChips);
+  body.appendChild(dietSec);
+
+  // ── Ejercicio ──
+  const exSec = buildDebriefSection('Ejercicio', 'var(--espresso)');
+  const exChips = exSec.querySelector('.debrief-chips');
+  let exAny = false;
+  CATEGORIES.exercise.groups.forEach(group => {
+    group.items.forEach(item => {
+      if(item.options){
+        item.options.forEach(opt => {
+          if(localStorage.getItem(`sel_${selectedDate}_${opt.id}`) === '1'){
+            addChip(exChips, `${opt.label} · ${opt.portion}`, 'selected'); exAny = true;
+          }
+        });
+      }
+    });
+  });
+  if(!exAny) addEmpty(exChips);
+  body.appendChild(exSec);
+}
+
+function buildDebriefSection(label, pip){
+  const sec = document.createElement('div');
+  sec.className = 'debrief-section';
+  const lbl = document.createElement('div');
+  lbl.className = 'debrief-section-label';
+  lbl.innerHTML = `<div class="pip" style="background:${pip}"></div>${label}`;
+  sec.appendChild(lbl);
+  const chips = document.createElement('div');
+  chips.className = 'debrief-chips';
+  sec.appendChild(chips);
+  return sec;
+}
+
+function addChip(container, label, type, portion=''){
+  const chip = document.createElement('div');
+  chip.className = `debrief-chip ${type}`;
+  chip.textContent = portion ? `${label} · ${portion}` : label;
+  container.appendChild(chip);
+}
+
+function addEmpty(container){
+  const el = document.createElement('div');
+  el.className = 'debrief-empty';
+  el.textContent = 'Nada registrado aún';
+  container.appendChild(el);
+}
+
 const WATER_GLASSES = 12;
 const ML_PER_GLASS  = 250;
 
@@ -1253,7 +1738,7 @@ function updateWaterDisplay(filled){
 loadState();
 const today=new Date(); today.setHours(0,0,0,0);
 weekStart=getMonday(today); progWeekStart=getMonday(today); selectedDate=dateKey(today);
-renderWeekTabs(); renderSections(); updateXP(); initIdentity(); initWater();
+renderWeekTabs(); renderSections(); updateXP(); initIdentity(); initWater(); renderDebrief();
 </script>
 </body>
 </html>
