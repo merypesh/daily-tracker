@@ -1210,8 +1210,9 @@ function renderTodayHeader(){
   document.getElementById('monthSmall').textContent=`${DAYS_ES[date.getDay()]} · ${MONTHS_ES[date.getMonth()].slice(0,3)}  ▾`;
 }
 
-// Track which bubble panels are open
+// Track which bubble panels and groups are open
 const openBubbles = new Set();
+const openGroups = new Set(['diet-0']); // Desayuno open by default
 
 function renderItem(item, cat, d, container){
   const checked=d[cat][item.id];
@@ -1278,20 +1279,24 @@ function renderSections(){
 
       // Only diet gets collapsible group headers
       if(isDiet){
+        const groupKey = `diet-${groupIdx}`;
         const shortLabel = group.label.includes('—') ? group.label.split('—')[0].trim() : group.label;
+        const isOpen = openGroups.has(groupKey);
         const hdr=document.createElement('div');
-        hdr.className='group-header' + (startOpen?' open':'');
-        hdr.innerHTML=`<span>${shortLabel}</span><span class="group-chevron ${startOpen?'open':''}">▾</span>`;
+        hdr.className='group-header'+(isOpen?' open':'');
+        hdr.innerHTML=`<span>${shortLabel}</span><span class="group-chevron ${isOpen?'open':''}">▾</span>`;
 
         const groupBody=document.createElement('div');
         groupBody.id=groupId;
-        groupBody.style.display=startOpen?'':'none';
+        groupBody.style.display=isOpen?'':'none';
 
         hdr.onclick=()=>{
-          const isOpen=groupBody.style.display!=='none';
-          groupBody.style.display=isOpen?'none':'';
-          hdr.querySelector('.group-chevron').classList.toggle('open',!isOpen);
-          hdr.classList.toggle('open',!isOpen);
+          const nowOpen=groupBody.style.display==='none';
+          groupBody.style.display=nowOpen?'':'none';
+          hdr.querySelector('.group-chevron').classList.toggle('open',nowOpen);
+          hdr.classList.toggle('open',nowOpen);
+          if(nowOpen) openGroups.add(groupKey);
+          else openGroups.delete(groupKey);
         };
 
         container.appendChild(hdr);
@@ -1341,7 +1346,7 @@ function updateScores(cat){
   if(fill) fill.style.height = p === 100 ? '108%' : p+'%';
 }
 
-function selectDate(key){ selectedDate=key; openBubbles.clear(); renderWeekTabs(); renderSections(); initWater(); initIdentity(); renderDebrief(); }
+function selectDate(key){ selectedDate=key; openBubbles.clear(); openGroups.clear(); openGroups.add('diet-0'); renderWeekTabs(); renderSections(); initWater(); initIdentity(); renderDebrief(); }
 function changeWeek(dir){
   weekStart.setDate(weekStart.getDate()+dir*7); renderWeekTabs();
   const end=new Date(weekStart); end.setDate(end.getDate()+6);
