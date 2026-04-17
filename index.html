@@ -166,8 +166,9 @@ body {
 .score-card.d .sc-num { color: var(--espresso-light); }
 .score-card.e .sc-num { color: var(--espresso); }
 .sc-label {
-  font-size: 0.55rem; font-weight: 700; color: var(--text3);
+  font-size: 0.55rem; font-weight: 700; color: var(--espresso);
   text-transform: uppercase; letter-spacing: 0.07em; margin-top: 0.2rem;
+  opacity: 0.6;
 }
 
 /* ── Section block ── */
@@ -197,6 +198,26 @@ body {
 
 /* ── Group ── */
 .group-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 0.3rem 0.75rem 0.2rem;
+  padding: 0.5rem 0.9rem;
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--sep);
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--text2);
+  cursor: pointer; user-select: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.group-header.open {
+  background: var(--sky);
+  border-color: var(--sky-mid);
+  color: var(--espresso);
+}
+.group-header:hover { background: var(--sky); border-color: var(--sky-mid); color: var(--espresso); }
+.group-chevron { font-size: 0.58rem; color: var(--text3); transition: transform 0.2s; flex-shrink: 0; }
+.group-chevron.open { transform: rotate(180deg); }
+.group-header-plain {
   padding: 0.75rem 1.1rem 0.3rem;
   font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.1em; color: var(--text3);
@@ -204,24 +225,28 @@ body {
 
 /* ── Check row ── */
 .check-row {
-  display: flex; align-items: flex-start; gap: 0.85rem;
-  padding: 0.75rem 1.1rem; cursor: pointer;
-  border-top: 1px solid var(--sep); transition: background 0.1s;
+  display: flex; align-items: center; gap: 0.85rem;
+  margin: 0.2rem 0.75rem;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  border: 1px solid var(--sep);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  box-shadow: 0 1px 4px rgba(76,43,8,0.06);
+  transition: box-shadow 0.15s, transform 0.15s;
+  min-height: 52px;
 }
-.check-row:active { background: rgba(76,43,8,0.03); }
+.check-row:active { transform: translateY(1px); box-shadow: none; }
 .check-row.has-options {
   margin: 0.2rem 0.75rem;
   border: 1px solid var(--sep);
   border-radius: var(--radius-sm);
-  padding: 0.7rem 0.9rem;
+  padding: 0.5rem 0.9rem;
   background: var(--white);
-  box-shadow: 0 1px 4px rgba(76,43,8,0.07);
-  transition: box-shadow 0.15s, transform 0.15s;
+  min-height: 52px;
+  box-shadow: 0 1px 4px rgba(76,43,8,0.06);
 }
-.check-row.has-options:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(76,43,8,0.04);
-}
+.check-row.has-options:active { transform: translateY(1px); box-shadow: none; }
 .check-circle {
   width: 22px; height: 22px; border-radius: 50%;
   border: 2px solid var(--text3); flex-shrink: 0;
@@ -486,17 +511,22 @@ textarea::placeholder { color: var(--text3); }
 /* ── Interchange Bubbles ── */
 .bubble-wrap {
   display: flex; flex-wrap: wrap; gap: 0.4rem;
-  padding: 0.6rem 0.5rem 0.7rem;
+  padding: 0.6rem 1.1rem 0.7rem;
   border-top: 1px solid var(--sep);
   animation: fadeUp 0.2s ease;
 }
 @keyframes fadeUp { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
 .bubble {
-  display: flex; flex-direction: column;
-  background: var(--cream); border-radius: 20px;
-  padding: 0.35rem 0.75rem; cursor: pointer;
-  border: 1.5px solid transparent;
-  transition: all 0.15s; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--cream); border-radius: var(--radius-sm);
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  border: 1.5px solid var(--sep);
+  transition: all 0.15s;
+  text-align: center;
+  width: calc(33.333% - 0.27rem);
+  min-height: 52px;
+  box-sizing: border-box;
 }
 .bubble:active { transform: scale(0.95); }
 .bubble.selected {
@@ -598,13 +628,12 @@ textarea::placeholder { color: var(--text3); }
 .hm-dot.partial { background: var(--sky); opacity: 0.5; }
 .hm-dot.future  { background: var(--cream); opacity: 0.4; }
 /* per-category full colors */
-.hm-dot.full-s  { background: var(--sky-dark); }
-.hm-dot.full-d  { background: var(--espresso-light); }
-.hm-dot.full-e  { background: var(--espresso); }
-/* partial per-category */
-.hm-dot.part-s  { background: var(--sky); opacity: 0.55; }
-.hm-dot.part-d  { background: #e8c8a0; }
-.hm-dot.part-e  { background: #b08060; opacity: 0.6; }
+.hm-dot.full-s  { background: #4a9de0; }
+.hm-dot.full-d  { background: #c07830; }
+.hm-dot.full-e  { background: #4C2B08; }
+.hm-dot.part-s  { background: #a8cef0; }
+.hm-dot.part-d  { background: #e8b870; }
+.hm-dot.part-e  { background: #9a6040; }
 /* month label row */
 .heatmap-months {
   display: flex; gap: 3px; margin-bottom: 0.3rem; padding-left: 0;
@@ -1051,13 +1080,13 @@ const AH_QUOTES = [
   "Habits are the compound interest of self-improvement.",
   "Small habits make a big difference. 1% better every day.",
   "The goal is not to run a marathon. The goal is to become a runner.",
-  "You don't have to be the victim of your environment. You can also be the architect.",
+  "You don\u2019t have to be the victim of your environment. You can also be the architect.",
   "Motivation is overrated. Environment often matters more.",
   "The most effective form of learning is practice, not planning.",
   "Each habit is a vote for the identity you want to build.",
   "Be the designer of your world and not merely the consumer of it.",
   "Good habits make time your ally. Bad habits make time your enemy.",
-  "The first mistake is never the one that ruins you. It's the spiral of repeated mistakes.",
+  "The first mistake is never the one that ruins you. It\u2019s the spiral of repeated mistakes.",
   "You should be far more concerned with your current trajectory than your current results.",
   "Professionals stick to the schedule. Amateurs let life get in the way.",
   "The purpose of setting goals is to win the game. The purpose of building systems is to keep playing.",
@@ -1066,8 +1095,13 @@ const AH_QUOTES = [
 ];
 
 function getDailyQuote(){
-  const d = new Date();
-  const idx = (d.getFullYear()*366 + d.getMonth()*31 + d.getDate()) % AH_QUOTES.length;
+  const dateStr = selectedDate || new Date().toISOString().slice(0,10);
+  let hash = 2166136261;
+  for(let i=0; i<dateStr.length; i++){
+    hash ^= dateStr.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  const idx = Math.abs(hash) % AH_QUOTES.length;
   return AH_QUOTES[idx];
 }
 
@@ -1176,62 +1210,101 @@ function renderTodayHeader(){
   document.getElementById('monthSmall').textContent=`${DAYS_ES[date.getDay()]} · ${MONTHS_ES[date.getMonth()].slice(0,3)}  ▾`;
 }
 
+// Track which bubble panels are open
+const openBubbles = new Set();
+
+function renderItem(item, cat, d, container){
+  const checked=d[cat][item.id];
+  const hasOptions=(cat==='diet'||cat==='exercise')&&item.options&&item.options.length>0;
+  const row=document.createElement('div');
+  row.className='check-row'+(checked?' done':'')+(hasOptions?' has-options':'');
+  row.innerHTML=`
+    <div class="check-circle">${checked?'✓':''}</div>
+    <div class="check-text">
+      <div class="check-title">${item.label}${hasOptions?' <span style="font-size:0.58rem;color:var(--text3);">▾</span>':''}</div>
+      ${item.portion?`<div class="check-portion">${item.portion}</div>`:''}
+    </div>
+    ${item.tag?`<div class="check-tag">${item.tag}</div>`:''}`;
+  row.querySelector('.check-circle').onclick=(e)=>{ e.stopPropagation(); toggleItem(cat,item.id); };
+  if(hasOptions){
+    row.onclick=(e)=>{
+      if(e.target.closest('.check-circle')) return;
+      const bubbleId='bubbles-'+item.id;
+      const existing=document.getElementById(bubbleId);
+      if(existing){
+        existing.remove();
+        openBubbles.delete(item.id);
+        return;
+      }
+      openBubbles.add(item.id);
+      renderBubbles(item, row);
+    };
+    // restore if was open
+    container.appendChild(row);
+    if(openBubbles.has(item.id)) renderBubbles(item, row);
+  } else {
+    row.onclick=()=>toggleItem(cat,item.id);
+    container.appendChild(row);
+  }
+}
+
+function renderBubbles(item, row){
+  const bubbleId='bubbles-'+item.id;
+  if(document.getElementById(bubbleId)) return;
+  const wrap=document.createElement('div');
+  wrap.className='bubble-wrap'; wrap.id=bubbleId;
+  item.options.forEach(opt=>{
+    const selKey=`sel_${selectedDate}_${opt.id}`;
+    const isSel=localStorage.getItem(selKey)==='1';
+    const b=document.createElement('div');
+    b.className='bubble'+(isSel?' selected':'');
+    b.innerHTML=`<span class="b-label">${opt.label}</span><span class="b-portion">${opt.portion}</span>`;
+    b.onclick=(e)=>{ e.stopPropagation(); const now=b.classList.toggle('selected'); localStorage.setItem(selKey,now?'1':'0'); renderDebrief(); };
+    wrap.appendChild(b);
+  });
+  row.after(wrap);
+}
+
 function renderSections(){
   if(!selectedDate) return;
   ensureDay(selectedDate); renderTodayHeader();
   const d=state[selectedDate];
   ['supps','diet','exercise'].forEach(cat=>{
     const container=document.getElementById(cat+'Items'); container.innerHTML='';
-    CATEGORIES[cat].groups.forEach(group=>{
-      const hdr=document.createElement('div'); hdr.className='group-header'; hdr.textContent=group.label; container.appendChild(hdr);
-      group.items.forEach(item=>{
-        const checked=d[cat][item.id];
-        const hasOptions = (cat==='diet' || cat==='exercise') && item.options && item.options.length>0;
-        const row=document.createElement('div');
-        row.className='check-row'+(checked?' done':'')+(hasOptions?' has-options':'');
-        row.innerHTML=`
-          <div class="check-circle">${checked?'✓':''}</div>
-          <div class="check-text">
-            <div class="check-title">${item.label}${hasOptions?' <span style="font-size:0.58rem;color:var(--text3);">▾</span>':''}</div>
-            ${item.portion?`<div class="check-portion">${item.portion}</div>`:''}
-          </div>
-          ${item.tag?`<div class="check-tag">${item.tag}</div>`:''}`;
+    CATEGORIES[cat].groups.forEach((group, groupIdx)=>{
+      const groupId = `group-${cat}-${groupIdx}`;
+      const isDiet = cat==='diet';
+      const startOpen = !isDiet || groupIdx===0;
 
-        // checkbox circle toggles completion
-        row.querySelector('.check-circle').onclick=(e)=>{
-          e.stopPropagation();
-          toggleItem(cat,item.id);
+      // Only diet gets collapsible group headers
+      if(isDiet){
+        const shortLabel = group.label.includes('—') ? group.label.split('—')[0].trim() : group.label;
+        const hdr=document.createElement('div');
+        hdr.className='group-header' + (startOpen?' open':'');
+        hdr.innerHTML=`<span>${shortLabel}</span><span class="group-chevron ${startOpen?'open':''}">▾</span>`;
+
+        const groupBody=document.createElement('div');
+        groupBody.id=groupId;
+        groupBody.style.display=startOpen?'':'none';
+
+        hdr.onclick=()=>{
+          const isOpen=groupBody.style.display!=='none';
+          groupBody.style.display=isOpen?'none':'';
+          hdr.querySelector('.group-chevron').classList.toggle('open',!isOpen);
+          hdr.classList.toggle('open',!isOpen);
         };
 
-        if(hasOptions){
-          // clicking row body toggles bubbles
-          row.onclick=(e)=>{
-            if(e.target.closest('.check-circle')) return;
-            const bubbleId='bubbles-'+item.id;
-            const existing=document.getElementById(bubbleId);
-            if(existing){ existing.remove(); return; }
-            const wrap=document.createElement('div');
-            wrap.className='bubble-wrap'; wrap.id=bubbleId;
-            item.options.forEach(opt=>{
-              const selKey=`sel_${selectedDate}_${opt.id}`;
-              const isSel=localStorage.getItem(selKey)==='1';
-              const b=document.createElement('div');
-              b.className='bubble'+(isSel?' selected':'');
-              b.innerHTML=`<span class="b-label">${opt.label}</span><span class="b-portion">${opt.portion}</span>`;
-              b.onclick=(e)=>{
-                e.stopPropagation();
-                const now=b.classList.toggle('selected');
-                localStorage.setItem(selKey,now?'1':'0');
-              };
-              wrap.appendChild(b);
-            });
-            row.after(wrap);
-          };
-        } else {
-          row.onclick=()=>toggleItem(cat,item.id);
-        }
-        container.appendChild(row);
-      });
+        container.appendChild(hdr);
+        container.appendChild(groupBody);
+        group.items.forEach(item=>{ renderItem(item, cat, d, groupBody); });
+      } else {
+        // supps and exercise: plain label, no collapse
+        const hdr=document.createElement('div');
+        hdr.className='group-header-plain';
+        hdr.textContent=group.label;
+        container.appendChild(hdr);
+        group.items.forEach(item=>{ renderItem(item, cat, d, container); });
+      }
     });
     document.getElementById(cat+'Notes').value=d.notes[cat]||'';
     renderPhotos(cat); updateScores(cat);
@@ -1268,7 +1341,7 @@ function updateScores(cat){
   if(fill) fill.style.height = p === 100 ? '108%' : p+'%';
 }
 
-function selectDate(key){ selectedDate=key; renderWeekTabs(); renderSections(); initWater(); initIdentity(); renderDebrief(); }
+function selectDate(key){ selectedDate=key; openBubbles.clear(); renderWeekTabs(); renderSections(); initWater(); initIdentity(); renderDebrief(); }
 function changeWeek(dir){
   weekStart.setDate(weekStart.getDate()+dir*7); renderWeekTabs();
   const end=new Date(weekStart); end.setDate(end.getDate()+6);
